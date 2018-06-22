@@ -1,96 +1,61 @@
 class PromotionalRule
 
-attr_reader :on_item,:minimum_quantity,:item_keyword,:flat_rate,:percentage_discount,:minimum_purchase
+attr_reader :discount_type,:on_item,:rule
 
-def initialize(flat_rate,percentage_discount)
+DISCOUNT_TYPES = ["percentage","flat_rate"]
 
-	@flat_rate = flat_rate
-	@percentage_discount = percentage_discount
+def initialize(discount_type,on_item,rule,no_validate = false)
+	@discount_type = discount_type
+	@on_item = on_item
+	@rule = rule
 
+	validate if no_validate == false
+end
+
+def eligible?
+	raise "Should be defined by the respective rule"
 end
 
 def validate
-	either_should_be_present(flat_rate,percentage_discount)  
+	check_discount_type(discount_type)
+	should_be_a_boolean("PromotionaRule::OnItem",on_item)
+	should_be_present("PromotionalRule::Rule",rule) 
 end
 
 private
 
-def either_should_be_present attribute_1,attribute_2
-	raise "atleast fill out #{attribute_1} or #{attribute_2}" if (attribute_1.empty? && attribute_2.empty? )
+def should_be_present name,attribute
+	raise "#{attribute} Should be present" if attribute == "" || attribute == nil
 end
 
-def atleast_one_should_be_present attribute_1,attribute_2
-	raise "either fill out #{attribute_1} or a #{attribute_2}" if (attribute_1.empty? == false && attribute_2.empty? == false )
+def check_discount_type discount_type
+	raise "Discount type can only be a 'percentage' or 'flat_rate'" if DISCOUNT_TYPES.include?(discount_type) == false
 end
 
-def should_be_a_number attribute
-	raise "#{attribute} should be a number" if (attribute.is_a? Numeric == false) 
+def either_should_be_present name,attribute_1,attribute_2
+	raise "atleast fill out #{name}" if (attribute_1.empty? && attribute_2.empty? )
 end
 
-def should_be_less_than attribute,number
-	raise "#{attribute} should be greater than #{number}" if (attribute < number)
+def atleast_one_should_be_present name,attribute_1,attribute_2
+	raise "either fill out #{name}" if (attribute_1.empty? == false && attribute_2.empty? == false )
 end
 
-
+def should_be_a_number name,attribute
+	raise "#{attribute} should be a number" if (attribute.is_a?(Numeric) == false) 
 end
 
-=begin
-
-
-BasketPrefixes = [
-									"on all products",
-									"on basket",
-									"off your purchase",
-									"off your total purchase"
-								] 
-
-ItemPrefixes = [
-								/[0-9]?[0-9][0-9]? or more/,
-								/greater than [0-9]?[0-9][0-9]?/,
-								/more than [0-9]?[0-9][0-9]?/,
-								/based products/
-							]
-
-
-promotional_rule = {
-	:on_item=>true, :discount_in_percentage=>true,:price=>calculate_adjustment(value_in_percentage),:item_keyword=>"Pizza"
-	:on_item => false
-}
-
-
-def process_promotional_rule
-	Item_regex = Regexp.union(prefixes)
-
-	if rule.match(re)
-
-
-  if rule_type == "on_item"
+def should_be_less_than name,attribute,number
+	raise "#{name} should be greater than #{number}" if (attribute < number)
 end
 
-def 
-
-#price based
-def price_based_rule
-
+def should_be_a_boolean  name,attribute
+	raise "#{name} should be a boolean" if (boolean?(attribute) == false)  
 end
 
-def price_based_rule?
-
+def boolean? attribute
+	binding.pry
+	["true","false",true,false].include? attribute
 end
 
 
-def quantity_based_rule
-
 end
-
-
-def quantity_based_rule?
-
-end
-
-def check_rule_type
-
-end
-
-end
-=end

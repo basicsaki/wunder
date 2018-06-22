@@ -1,12 +1,13 @@
-require_relative "./wunder/version.rb"
+require "pry"
+require "bigdecimal"
 
-Dir[File.dirname(__FILE__) + "wunder/*.rb"].each do |file|
-  require File.basename(file, File.extname(file))
+files = ["./wunder/version.rb","./wunder/modules.rb","./wunder/parser.rb",
+		"./wunder/promotion.rb","./wunder/checkout.rb"]
+rule_files = Dir[File.join(__dir__, 'wunder', 'promotional','rule','*.rb')]
+
+(files | rule_files).each do |file|
+	require file
 end
 
 module Wunder
-  module Promotion
-  	module Rule
-  	end
-  end
 end

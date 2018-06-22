@@ -1,6 +1,6 @@
 require_relative "../../promotional_rule.rb"
 
-		class Wunder::Promotion::Rule::Basket < PromotionalRule
+		class Promotional::Rule::Basket < PromotionalRule
 
 			attr_reader :minimum_quantity,:maximum_quantity,:item_keywords
 
