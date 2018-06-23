@@ -2,7 +2,7 @@ require_relative "./basket.rb"
 require_relative "./adjustment.rb"
 
 class Checkout
-  attr_accessor :basket, :promotional_rules
+  attr_accessor :basket, :promotional_rules, :adjustment
 
   def initialize(promotional_rules)
     @basket = Basket.new
@@ -20,7 +20,11 @@ class Checkout
   def total
     total_price_of_items_after_adjustments = BigDecimal(0)
 
-    adjustment = Adjustment.new(basket, promotional_rules)
-    adjustment.calculate_total
+    @adjustment = Adjustment.new(basket, promotional_rules)
+    @adjustment.calculate_total
+  end
+
+  def applied_promotional_rules
+    adjustment.eligible_promotional_rules
   end
 end

@@ -3,6 +3,7 @@ PATH
   specs:
     wunder (0.1.0)
       money
+      terminal-table
 
 GEM
   remote: https://rubygems.org/
@@ -55,6 +56,8 @@ GEM
     sub-inspector (0.1.2)
       rubocop (~> 0.55)
       rubocop-rspec (~> 1.25.1)
+    terminal-table (1.8.0)
+      unicode-display_width (~> 1.1, >= 1.1.1)
     unicode-display_width (1.4.0)
 
 PLATFORMS

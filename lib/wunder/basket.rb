@@ -27,11 +27,11 @@ class Basket
   end
 
   def items_in_basket
-    codes = []
-    items.each do |p|
-      codes << p.split(",")[0]
+    products = []
+    items.each do |item|
+      products << "#{item.product.product_code} - #{item.product.name}"
     end
 
-    codes
+    products.join(" , ")
   end
 end

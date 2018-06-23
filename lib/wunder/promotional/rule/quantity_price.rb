@@ -16,7 +16,7 @@ module Promotional
 
       def calculate_discounted_price(basket_item, discount_type)
         if discount_type == "percentage" && basket_item.quantity > minimum_quantity
-          basket_item.product.price = ((basket_item.product.price.to_f * value.to_f) / (100))
+          basket_item.product.price = ((basket_item.product.price.to_f * value.to_f) / 100)
         elsif discount_type == "flat_rate" && basket_item.quantity > minimum_quantity
           basket_item.product.price = value
         end
