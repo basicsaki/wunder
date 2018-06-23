@@ -18,13 +18,11 @@ class Checkout
   end
 
   def total
-    total_price_of_items_after_adjustments = BigDecimal(0)
-
     @adjustment = Adjustment.new(basket, promotional_rules)
     @adjustment.calculate_total
   end
 
   def applied_promotional_rules
-    adjustment.eligible_promotional_rules
+    adjustment.eligible_promotional_rules if adjustment
   end
 end

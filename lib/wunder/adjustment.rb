@@ -1,6 +1,5 @@
 class Adjustment
-  attr_reader :basket, :promotional_rules
-  attr_accessor :eligible_promotional_rules
+  attr_reader :basket, :promotional_rules, :basket_without_discounts
 
   def initialize(basket, promotional_rules)
     @basket = basket
@@ -24,16 +23,9 @@ class Adjustment
     adjusted_total = BigDecimal(0)
 
     basket.items.each do |basket_item|
-      @product_promotional_rules = eligible_product_promotional_discounts(basket_item)
-
-      unless @product_promotional_rules.empty?
-        @product_promotional_rules.each do |promotional_rule|
-          price = promotional_rule.calculate_total(basket_item)
-          basket_item.product.price = price unless price.nil?
-        end
-      end
-
-      adjusted_total += basket_item.product.price * basket_item.quantity.to_i
+      @product_promotional_rules = eligible_product_promo_discounts(basket_item)
+      compute_item_discounted_price(basket_item)
+      adjusted_total += basket_item.product.price * basket_item.quantity
     end
     adjusted_total
   end
@@ -43,21 +35,30 @@ class Adjustment
 
     unless @basket_promotional_rules.empty?
       basket_promotional_rules.each do |promotional_rule|
-        total = promotional_rule.calculate_total(items_total)
-        items_total = total
+        items_total = promotional_rule.calculate_total(items_total)
       end
     end
 
     items_total
   end
 
-  def eligible_product_promotional_discounts(basket_item)
-    promotional_rules.select do |promotional_rule|
-      promotional_rule.on_item == true && promotional_rule.rule.eligible?(basket_item)
+  def compute_item_discounted_price(basket_item)
+    return if @product_promotional_rules.empty?
+    @product_promotional_rules.each do |promotional_rule|
+      price = promotional_rule.calculate_total(basket_item)
+      basket_item.product.price = price unless price.nil?
+    end
+  end
+
+  def eligible_product_promo_discounts(basket_item)
+    promotional_rules.select do |promo_rule|
+      promo_rule.on_item == true && promo_rule.rule.eligible?(basket_item)
     end
   end
 
   def eligible_basket_promotional_discounts
-    promotional_rules.select { |promotional_rule| promotional_rule.on_item == false }
+    promotional_rules.select do |promo_rule|
+      promo_rule.on_item == false
+    end
   end
 end

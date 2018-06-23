@@ -10,9 +10,14 @@ class Print
 
   def table
     rows = []
+    headings = ["", "Items In basket", "Applied Promo Rules", "Total Price"]
     checkouts.each_with_index do |checkout, index|
-      rows << ["Test_#{index}", checkout.basket.items_in_basket, checkout.applied_promotional_rules, Money.new(checkout.total).format]
+      price = Money.new(checkout.total * 100).format
+      items = checkout.basket.items_in_basket
+      applied_promotional_rules = checkout.applied_promotional_rules
+
+      rows << ["Test_#{index}", items, applied_promotional_rules, price]
     end
-    Terminal::Table.new headings: ["", "Items In basket", "Applied Promotional Rules", "Total Price"], rows: rows
+    Terminal::Table.new headings: headings, rows: rows
   end
 end

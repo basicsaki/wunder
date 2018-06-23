@@ -8,9 +8,9 @@ class BasketItem
 
   def increment_item_quantity
     @quantity += 1
-    end
+  end
 
   def decrement_item_quantity
     @quantity -= 1
-    end
+  end
 end

@@ -11,7 +11,7 @@ class Product
 
   def validate
     [product_code, name, price].each do |parameter|
-      raise "ProductParameterMissing" if parameter.nil?
+      raise ArgumentError, "ProductParameterMissing" if parameter.nil?
     end
   end
 end

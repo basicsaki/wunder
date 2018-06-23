@@ -8,27 +8,35 @@ module Promotional
         @value = value
 
         validate if no_validate == false
-        end
+      end
 
       def eligible?(item)
         item.quantity >= minimum_quantity
-        end
+      end
 
       def calculate_discounted_price(basket_item, discount_type)
-        if discount_type == "percentage" && basket_item.quantity > minimum_quantity
-          basket_item.product.price = ((basket_item.product.price.to_f * value.to_f) / 100)
-        elsif discount_type == "flat_rate" && basket_item.quantity > minimum_quantity
+        if discount_type == "percentage" && eligible?(basket_item)
+          discount = compute_discount(basket_item)
+          basket_item.product.price = discount
+        elsif discount_type == "flat_rate" && eligible?(basket_item)
           basket_item.product.price = value
         end
-        end
+      end
 
       def calulate_total_discounted_price(total); end
 
       def validate
         should_be_present("QuantityPrice::Value", value)
         should_be_a_number("QuantiyPrice::MinimumQuantity", minimum_quantity)
-        should_be_less_than("QuantityPrice::MinimumQuantity", minimum_quantity, 1)
-        end
+        should_be_less_than("QuantityPrice::MinQuantity", minimum_quantity, 1)
       end
+
+      private
+
+      def compute_discount(basket_item)
+        discount = (basket_item.product.price * value) / 100
+        basket_item.product.price - discount
+      end
+    end
   end
 end

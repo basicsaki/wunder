@@ -13,11 +13,18 @@ products = parser.products
 promotion = Promotion.new("new_year", "1234")
 
 # rules
-item_quantity_rule = Promotional::Rule::QuantityPrice.new(1, 10)
+quantity_rule_1 = Promotional::Rule::QuantityPrice.new(1, 10)
+quantity_rule_2 = Promotional::Rule::QuantityPrice.new(1, 10)
 
 # promotional rules
-promotion_rule = PromotionalRule.new("Flat discount on prices", "flat_rate", true, item_quantity_rule)
-promotion.add_rule(promotion_rule)
+label_1 = "Flat_rate discount on prices"
+label_2 = "percentage discount on prices"
+
+promotion_rule_1 = PromotionalRule.new(label_2, "percentage", true, quantity_rule_2)
+promotion_rule_2 = PromotionalRule.new(label_1, "flat_rate", true, quantity_rule_1)
+
+
+promotion.add_rules_in_bulk([promotion_rule_2,promotion_rule_1])
 
 # promotional Rules
 # Checkout interface
@@ -25,13 +32,9 @@ promotion.add_rule(promotion_rule)
 
 co = Checkout.new(promotion.promotion_rules)
 
-co.scan(products.first)
-co.scan(products.first(3).last)
-co.scan(products.first(3).last)
-
-co.scan(products.last)
-
-price = co.total
+co.scan(products[0])
+co.scan(products[1])
+co.scan(products[2])
 
 table = Print.new([co]).table
 

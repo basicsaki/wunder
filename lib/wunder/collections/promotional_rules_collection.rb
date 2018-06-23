@@ -8,6 +8,7 @@ class PromotionalRulesCollection < Array
   end
 
   def validate_promotion_rule_is_uniq(promotional_rule)
-    find_promotional_rule(promotional_rule).nil? ? true : (raise "DuplicatePromotionalRuleError")
+    err_msg = "DuplicatePromotionalRuleError"
+    find_promotional_rule(promotional_rule).nil? ? true : (raise err_msg.to_s)
   end
 end

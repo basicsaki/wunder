@@ -13,7 +13,8 @@ class Parser
   end
 
   def validate
-    raise "FileNotFound" if path == "" || path.nil? || File.exist?(path) == false
+    err_msg = "No such file found"
+    raise err_msg.to_s if path == "" || path.nil? || File.exist?(path) == false
   end
 
   def process_file
