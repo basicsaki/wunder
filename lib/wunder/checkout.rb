@@ -17,7 +17,7 @@ class Checkout
     basket.remove_item(product)
   end
 
-  def total    
+  def total
     total_price_of_items_after_adjustments = BigDecimal(0)
 
     adjustment = Adjustment.new(basket, promotional_rules)

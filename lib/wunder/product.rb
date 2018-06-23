@@ -4,7 +4,7 @@ class Product
   def initialize(product_code, name, price, no_validate = false)
     @product_code = product_code
     @name = name
-    @price = price
+    @price = BigDecimal.new(price)
 
     validate if no_validate == false
   end

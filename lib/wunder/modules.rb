@@ -1,4 +1,4 @@
 module Promotional
-	module Rule
-	end
+  module Rule
+  end
 end
