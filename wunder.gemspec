@@ -11,13 +11,13 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Code Test.}
   spec.description   = %q{Checkout system with flexible rules.}
-  spec.homepage      = "http://www.wunder.org"
+  spec.homepage      = "https://github.com/basicsaki/wunder"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   if spec.respond_to?(:metadata)
-    spec.metadata["allowed_push_host"] = "http://www.rubygems.org"
+    spec.metadata["allowed_push_host"] = "https://rubygems.org"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
@@ -32,16 +32,16 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "money"
-  spec.add_dependency "terminal-table"
+  spec.add_dependency "money","~> 6.11"
+  spec.add_dependency "terminal-table","~> 1.8"
 
-  spec.add_development_dependency "pry"
-  spec.add_development_dependency "faker"
-  spec.add_development_dependency "rubocop"
+  spec.add_development_dependency "pry", "~> 0.11"
+  spec.add_development_dependency "faker", "~> 1.8"
+  spec.add_development_dependency "rubocop", "~> 0.57"
   spec.add_development_dependency "sub-inspector", "0.1.5"
 
   spec.add_development_dependency "bundler", "~> 1.16"
-  spec.add_development_dependency "bundler-audit"
+  spec.add_development_dependency "bundler-audit","~> 0.6"
 
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"

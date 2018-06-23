@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     wunder (0.1.0)
-      money
-      terminal-table
+      money (~> 6.11)
+      terminal-table (~> 1.8)
 
 GEM
   remote: https://rubygems.org/
@@ -69,12 +69,12 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.16)
-  bundler-audit
-  faker
-  pry
+  bundler-audit (~> 0.6)
+  faker (~> 1.8)
+  pry (~> 0.11)
   rake (~> 10.0)
   rspec (~> 3.0)
-  rubocop
+  rubocop (~> 0.57)
   sub-inspector (= 0.1.5)
   wunder!
 
