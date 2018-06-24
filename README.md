@@ -1,18 +1,16 @@
 [![Build Status](https://travis-ci.org/basicsaki/wunder.svg?branch=master)](https://travis-ci.org/basicsaki/wunder)
 
 
-# Checkout
+# Wunder
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/checkout`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Sample ruby code for a checkout system with flexible rules. 
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'checkout'
+gem 'wunder'
 ```
 
 And then execute:
@@ -23,15 +21,85 @@ Or install it yourself as:
 
     $ gem install checkout
 
-## Usage
+## Steps to add a new rule
 
-TODO: Write usage instructions here
+Create a new file in the folder
+	 
+	 lib/wunder/promotional/rule/*.rb
 
-## Development
+Capture any value or paramters in the initialize method.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Make sure that the below mentioned methods are available in the file.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+If the discount is on basket define adjustable method as mentioned below.
+
+Total is the parameter after discounts on individual items.
+Define calculate_total_discounted_price to compute the new value after discounts.
+return false if your rule has only item specific discounts.
+
+      def adjustable?(total)
+        return true if total > value
+        false
+      end
+
+      def calculate_total_discounted_price(total, discount_type)
+        if discount_type == "percentage"
+          discount_price = total - ((total * value) / 100)
+        elsif discount_type == "flat_rate"
+          discount_price = total
+        end
+        discount_price
+      end
+
+
+If the discount is on an item define eligible method as mentioned below.Item is the individual item scaned during the checkout.
+Define calculate_discounted_price to compute the new value after discounts.
+return false if your rule has only basket specific discounts.
+
+      def eligible?(_item)
+        false
+      end
+
+      def calculate_discounted_price(basket_item, discount_type)
+        if discount_type == "percentage"
+          discount = compute_discount(basket_item)
+          basket_item.product.price = discount
+        elsif discount_type == "flat_rate"
+          basket_item.product.price = value
+        end
+      end
+
+Methods in concerns/rule_validations can be used readily to validate the input parameters while capturing the rule.
+
+##Example
+
+An interface example has been added at path wunder/lib/interface.rb to calculate and add existing rules.
+
+	ruby lib/interface.rb
+
+To run the tests
+	
+	rspec spec
+
+To check rubocop style guidelines
+
+	rubocop 
+
+To check dependent gem venerabilites
+
+	bundle audit
+
+
+#Note
+For rubocop enforcements using a gem sub-inspector for ruby gems.
+
+
+#Ruby documentation
+https://www.rubydoc.info/gems/wunder
+
+##Future Scope
+Making seperate modules for checkout,promotional rules and parsing products.
+Adding priority to rules as many rules can be applied to many products. The order in which the rules are applied can be be sorted.
 
 ## Contributing
 
@@ -44,3 +112,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the Checkout project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/checkout/blob/master/CODE_OF_CONDUCT.md).
+
