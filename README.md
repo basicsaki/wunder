@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/basicsaki/wunder.svg?branch=master)](https://travis-ci.org/basicsaki/wunder)
 
 
-# Checkout
+# Wunder
 
 Sample ruby code for a checkout system with flexible rules. 
 
