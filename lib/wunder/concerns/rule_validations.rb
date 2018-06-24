@@ -1,8 +1,8 @@
 module RuleValidations
   DISCOUNT_TYPES = %w[percentage flat_rate].freeze
 
-  def should_be_present(name, attribute)
-    raise "#{name} Should be present" if attribute == "" || attribute.nil?
+  def should_be_present(name, attr)
+    raise "#{name}.capitalize should be present" if attr == "" || attr.nil?
   end
 
   def check_discount_type(discount_type)
@@ -13,11 +13,6 @@ module RuleValidations
 
   def either_should_be_present(name, attr1, attr2)
     raise "atleast fill out #{name}" if attr1.empty? && attr2.empty?
-  end
-
-  def atleast_one_should_be_present(name, attr1, attr2)
-    raise "either fill out #{name}" if
-    attr1.empty? == false && attr2.empty? == false
   end
 
   def should_be_a_number(name, attribute)
