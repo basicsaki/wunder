@@ -1,6 +1,5 @@
-require 'simplecov'
+require "simplecov"
 SimpleCov.start
-
 
 require "bundler/setup"
 require "wunder"

@@ -82,7 +82,7 @@ DEPENDENCIES
   rake (~> 10.0)
   rspec (~> 3.0)
   rubocop (~> 0.57)
-  simplecov
+  simplecov (~> 0.16)
   sub-inspector (= 0.1.5)
   wunder!
 

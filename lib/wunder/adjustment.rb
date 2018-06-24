@@ -1,9 +1,11 @@
 class Adjustment
-  attr_reader :basket, :promotional_rules, :basket_without_discounts
+  attr_reader :basket, :promotional_rules
 
   def initialize(basket, promotional_rules)
     @basket = basket
     @promotional_rules = promotional_rules
+    @product_promotional_rules = []
+    @basket_promotional_rules = []
     @applied_promotional_rules = []
   end
 
