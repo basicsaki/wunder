@@ -19,6 +19,7 @@ class Basket
 
   def remove_item(product)
     item = items.find_product(product.product_code)
+    return if item.nil?
     if item.quantity == 1
       items.delete(item)
     else

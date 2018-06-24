@@ -15,15 +15,23 @@ module Promotional
       end
 
       def calculate_discounted_price(basket_item, discount_type)
-        if discount_type == "percentage" && eligible?(basket_item)
+        if discount_type == "percentage"
           discount = compute_discount(basket_item)
           basket_item.product.price = discount
-        elsif discount_type == "flat_rate" && eligible?(basket_item)
+        elsif discount_type == "flat_rate"
           basket_item.product.price = value
         end
       end
 
-      def calulate_total_discounted_price(total); end
+      def calculate_total_discounted_price(total, discount_type)
+        if discount_type == "percentage"
+          discount_price = total - ((total * value) / 100)
+        elsif discount_type == "flat_rate"
+          discount_price = total
+        end
+
+        discount_price
+      end
 
       def validate
         should_be_present("QuantityPrice::Value", value)

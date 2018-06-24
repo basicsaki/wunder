@@ -106,8 +106,8 @@ RSpec.describe RuleValidations do
       end
     end
 
-    context "when attribute < number provided " do
-      it "raises a rumtime error" do
+    context "when attribute > number provided " do
+      it "raises a runtime error" do
         expect { sample_object.should_be_less_than("name", 10, 20) }
           .to raise_error(RuntimeError)
       end

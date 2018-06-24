@@ -34,7 +34,7 @@ class Adjustment
     @basket_promotional_rules = eligible_basket_promotional_discounts
 
     unless @basket_promotional_rules.empty?
-      basket_promotional_rules.each do |promotional_rule|
+      @basket_promotional_rules.each do |promotional_rule|
         items_total = promotional_rule.calculate_total(items_total)
       end
     end

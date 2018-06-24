@@ -36,6 +36,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "terminal-table","~> 1.8"
 
   spec.add_development_dependency "pry", "~> 0.11"
+  spec.add_development_dependency "simplecov"
+
   spec.add_development_dependency "faker", "~> 1.8"
   spec.add_development_dependency "rubocop", "~> 0.57"
   spec.add_development_dependency "sub-inspector", "0.1.5"
