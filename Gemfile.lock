@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wunder (0.1.0)
+    wunder (0.1.4)
       money (~> 6.11)
       terminal-table (~> 1.8)
 
