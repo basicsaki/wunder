@@ -27,6 +27,16 @@ module Promotional
         end
       end
 
+      def calculate_total_discounted_price(total, discount_type)
+        if discount_type == "percentage"
+          discount_price = total - ((total * value) / 100)
+        elsif discount_type == "flat_rate"
+          discount_price = total
+        end
+
+        discount_price
+      end
+
       def validate
         should_be_present("ItemQuantityPriceRule::Value", value)
         should_be_a_number("ItemQuantityPriceRule::MinimumQuantity",
