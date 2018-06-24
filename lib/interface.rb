@@ -14,13 +14,21 @@ quantity_rule1 = Promotional::Rule::ItemQuantityPriceRule.new(1, 10)
 quantity_rule2 = Promotional::Rule::BasketRule.new(20)
 # promotion
 promotion = Promotion.new("New Year Flat Discount", "code_115")
+
+#a promotion rule parameters
+#the first parameter is for the label,
+#the second is to determine the discount type only values allowed are flat_rate or percentage 
+#the third is to determine if the discount is available on item [ true ] or on basket [false]
+#the fourth option is the rule that can be custom and defined in lib/wunder/promotional/rule/*.rb
 promotion_rule1 = PromotionalRule.new(label, "percentage", true, quantity_rule1)
 promotion_rule2 = PromotionalRule.new(label, "flat_rate", true, quantity_rule1)
 promotion_rule3 = PromotionalRule.new(label1, "percentage", false, quantity_rule2)
 promotion_rule4 = PromotionalRule.new(label1, "flat_rate", false, quantity_rule2)
 rules = [promotion_rule1,promotion_rule2,promotion_rule3, promotion_rule4]
-promotion.add_rules_in_bulk(rules)
 
+#to add in bulk
+#the other methods are add_rule / remove_rule
+promotion.add_rules_in_bulk(rules)
 
 #File processing
 parser.process_file
