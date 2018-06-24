@@ -18,6 +18,10 @@ class PromotionalRule
     raise "Should be defined by the respective rule"
   end
 
+  def adjustable?(_total)
+    raise "Should be defined by the respective rule"
+  end
+
   def validate
     should_be_present("label", label)
     check_discount_type(discount_type)

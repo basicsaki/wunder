@@ -2,8 +2,8 @@ require "wunder_helper"
 
 RSpec.describe PromotionalRulesCollection do
   let(:rules) { described_class.new }
-  let(:rul1) { Promotional::Rule::QuantityPrice.new(1, 10) }
-  let(:rul2) { Promotional::Rule::QuantityPrice.new(1, 10) }
+  let(:rul1) { Promotional::Rule::ItemQuantityPriceRule.new(1, 10) }
+  let(:rul2) { Promotional::Rule::ItemQuantityPriceRule.new(1, 10) }
   let(:labl1) { "Flat_rate discount on prices" }
   let(:labl2) { "Percentage discount on prices" }
   let(:promotion_rule1) { PromotionalRule.new(labl1, "percentage", true, rul2) }

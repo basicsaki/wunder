@@ -1,6 +1,6 @@
 module Promotional
   module Rule
-    class QuantityPrice < PromotionalRule
+    class ItemQuantityPriceRule < PromotionalRule
       attr_reader :minimum_quantity, :value
 
       def initialize(minimum_quantity, value, no_validate = false)
@@ -12,6 +12,10 @@ module Promotional
 
       def eligible?(item)
         item.quantity >= minimum_quantity
+      end
+
+      def adjustable?(_total)
+        false
       end
 
       def calculate_discounted_price(basket_item, discount_type)
@@ -34,9 +38,11 @@ module Promotional
       end
 
       def validate
-        should_be_present("QuantityPrice::Value", value)
-        should_be_a_number("QuantiyPrice::MinimumQuantity", minimum_quantity)
-        should_be_less_than("QuantityPrice::MinQuantity", minimum_quantity, 1)
+        should_be_present("ItemQuantityPriceRule::Value", value)
+        should_be_a_number("ItemQuantityPriceRule::MinimumQuantity",
+                           minimum_quantity)
+        should_be_more_than("ItemQuantityPriceRule::MinQuantity",
+                            minimum_quantity, 1)
       end
 
       private

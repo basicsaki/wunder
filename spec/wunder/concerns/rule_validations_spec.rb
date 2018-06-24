@@ -99,16 +99,16 @@ RSpec.describe RuleValidations do
     end
   end
 
-  describe "#should_be_less_than" do
+  describe "#should_be_more_than" do
     context "when attribute < number provided " do
       it "returns nil" do
-        expect(sample_object.should_be_less_than("name", 20, 10)).to be_nil
+        expect(sample_object.should_be_more_than("name", 20, 10)).to be_nil
       end
     end
 
     context "when attribute > number provided " do
       it "raises a runtime error" do
-        expect { sample_object.should_be_less_than("name", 10, 20) }
+        expect { sample_object.should_be_more_than("name", 10, 20) }
           .to raise_error(RuntimeError)
       end
     end

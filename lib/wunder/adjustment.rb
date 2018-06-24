@@ -33,7 +33,8 @@ class Adjustment
   end
 
   def apply_basket_discounts(items_total)
-    @basket_promotional_rules = eligible_basket_promotional_discounts
+    @basket_promotional_rules =
+      eligible_basket_promotional_discounts(items_total)
 
     unless @basket_promotional_rules.empty?
       @basket_promotional_rules.each do |promotional_rule|
@@ -58,9 +59,9 @@ class Adjustment
     end
   end
 
-  def eligible_basket_promotional_discounts
+  def eligible_basket_promotional_discounts(total)
     promotional_rules.select do |promo_rule|
-      promo_rule.on_item == false
+      promo_rule.on_item == false && promo_rule.rule.adjustable?(total)
     end
   end
 end

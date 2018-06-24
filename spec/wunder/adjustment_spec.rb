@@ -5,7 +5,8 @@ RSpec.describe Adjustment do
   let(:product_code) { 0o01 }
   let(:product) { Product.new(product_code, name, 100) }
   let(:rules) { PromotionalRulesCollection.new }
-  let(:rul1) { Promotional::Rule::QuantityPrice.new(1, 10) }
+  let(:rul1) { Promotional::Rule::ItemQuantityPriceRule.new(1, 10) }
+  let(:rul2) { Promotional::Rule::BasketRule.new(1, 10) }
   let(:labl1) { "Flat_rate discount on prices" }
   let(:promotion_rule) { PromotionalRule.new(labl1, "percentage", true, rul1) }
   let(:basket) { Basket.new }
@@ -34,7 +35,7 @@ RSpec.describe Adjustment do
       basket.add_item(product)
 
       adjusted_total = adjustment.send(:apply_basket_discounts, 100)
-      expect(adjusted_total).to eq(BigDecimal(90))
+      expect(adjusted_total).to eq(100)
     end
   end
 
@@ -50,13 +51,12 @@ RSpec.describe Adjustment do
 
     context "when product promotional rules is applied" do
       it "returns the calculated price" do
-        item = basket.items.first
         [promotion_rule].each do |promotional_rule|
-          price = promotional_rule.calculate_total(item)
-          item.product.price = price unless price.nil?
+          price = promotional_rule.calculate_total(basket.items.first)
+          basket.items.first.product.price = price unless price.nil?
         end
 
-        expect(item.product.price).to eq(BigDecimal(90))
+        expect(basket.items.first.product.price).to eq(BigDecimal(90))
       end
     end
   end
@@ -88,18 +88,18 @@ RSpec.describe Adjustment do
   describe "#eligible_basket_promotional_discounts" do
     context "when basket promotional rules are not applied for the basket" do
       it "returns nil" do
-        promos = adjustment.send(:eligible_basket_promotional_discounts)
+        promos = adjustment.send(:eligible_basket_promotional_discounts, 10)
         expect(promos.first).to eq(nil)
       end
     end
 
     context "when basket promotional rules are applied" do
       let(:promotion_rule) do
-        PromotionalRule.new(labl1, "percentage", false, rul1)
+        PromotionalRule.new(labl1, "percentage", false, rul2)
       end
 
       it "returns nil" do
-        promos = adjustment.send(:eligible_basket_promotional_discounts)
+        promos = adjustment.send(:eligible_basket_promotional_discounts, 100)
         expect(promos.first).to eq(promotion_rule)
       end
     end

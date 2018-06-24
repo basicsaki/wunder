@@ -5,7 +5,9 @@ RSpec.describe Checkout do
   let(:product_code) { 0o01 }
   let(:product) { Product.new(product_code, name, 100) }
   let(:rules) { PromotionalRulesCollection.new }
-  let(:rul1) { Promotional::Rule::QuantityPrice.new(1, 10) }
+  let(:rul1) { Promotional::Rule::ItemQuantityPriceRule.new(1, 10) }
+  let(:rul2) { Promotional::Rule::BasketRule.new(10) }
+
   let(:labl1) { "Flat_rate discount on prices" }
   let(:promotion_rule) { PromotionalRule.new(labl1, "percentage", true, rul1) }
 
@@ -100,7 +102,7 @@ RSpec.describe Checkout do
 
     context "when a flat rate discount is applied on the basket" do
       let(:promotion_rule) do
-        PromotionalRule.new(labl1, "flat_rate", false, rul1)
+        PromotionalRule.new(labl1, "flat_rate", false, rul2)
       end
 
       it "calculates the basket total after discounts" do
@@ -111,7 +113,7 @@ RSpec.describe Checkout do
 
     context "when a flat rate discount is applied on the basket" do
       let(:promotion_rule) do
-        PromotionalRule.new(labl1, "percentage", false, rul1)
+        PromotionalRule.new(labl1, "percentage", false, rul2)
       end
 
       it "when a percentage is applied on the basket" do

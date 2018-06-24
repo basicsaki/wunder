@@ -19,7 +19,7 @@ module RuleValidations
     raise "#{name} should be a number" if attribute.is_a?(Numeric) == false
   end
 
-  def should_be_less_than(name, attribute, number)
+  def should_be_more_than(name, attribute, number)
     raise "#{name} should be >= #{number}" if attribute < number
   end
 
