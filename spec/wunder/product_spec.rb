@@ -8,6 +8,12 @@ RSpec.describe Product do
   let(:product) { described_class.new(product_code, name, price) }
 
   describe "#validate" do
+    context "when a product is valid" do
+      it "raises parameter missing error " do
+        expect(product.validate).to be_nil
+      end
+    end
+
     context "when product code is missing" do
       let(:product_code) { nil }
 

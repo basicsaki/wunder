@@ -13,5 +13,6 @@ class Product
     [product_code, name, price].each do |parameter|
       raise ArgumentError, "ProductParameterMissing" if parameter.nil?
     end
+    nil
   end
 end

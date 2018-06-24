@@ -13,8 +13,8 @@ products = parser.products
 promotion = Promotion.new("new_year", "1234")
 
 # rules
-quantity_rule1 = Promotional::Rule::QuantityPrice.new(1, 10)
-quantity_rule2 = Promotional::Rule::QuantityPrice.new(1, 10)
+quantity_rule1 = Promotional::Rule::ItemQuantityPriceRule.new(1, 10)
+quantity_rule2 = Promotional::Rule::ItemQuantityPriceRule.new(1, 10)
 
 # promotional rules
 label = "percentage discount on prices"

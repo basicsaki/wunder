@@ -1,9 +1,11 @@
 class Adjustment
-  attr_reader :basket, :promotional_rules, :basket_without_discounts
+  attr_reader :basket, :promotional_rules
 
   def initialize(basket, promotional_rules)
     @basket = basket
     @promotional_rules = promotional_rules
+    @product_promotional_rules = []
+    @basket_promotional_rules = []
     @applied_promotional_rules = []
   end
 
@@ -31,10 +33,11 @@ class Adjustment
   end
 
   def apply_basket_discounts(items_total)
-    @basket_promotional_rules = eligible_basket_promotional_discounts
+    @basket_promotional_rules =
+      eligible_basket_promotional_discounts(items_total)
 
     unless @basket_promotional_rules.empty?
-      basket_promotional_rules.each do |promotional_rule|
+      @basket_promotional_rules.each do |promotional_rule|
         items_total = promotional_rule.calculate_total(items_total)
       end
     end
@@ -56,9 +59,9 @@ class Adjustment
     end
   end
 
-  def eligible_basket_promotional_discounts
+  def eligible_basket_promotional_discounts(total)
     promotional_rules.select do |promo_rule|
-      promo_rule.on_item == false
+      promo_rule.on_item == false && promo_rule.rule.adjustable?(total)
     end
   end
 end
