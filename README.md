@@ -34,28 +34,11 @@ Make sure that the below mentioned methods are available in the file.
 If the discount is on basket define adjustable method as mentioned below.
 
 Total is the parameter after discounts on individual items.
-Define calculate_discounted_price to compute the new value after discounts.
+Define calculate_total_discounted_price to compute the new value after discounts.
 return false if your rule has only item specific discounts.
 
       def adjustable?(total)
         return true if total > value
-        false
-      end
-
-      def calculate_discounted_price(basket_item, discount_type)
-        if discount_type == "percentage"
-          discount = compute_discount(basket_item)
-          basket_item.product.price = discount
-        elsif discount_type == "flat_rate"
-          basket_item.product.price = value
-        end
-      end
-
-If the discount is on an item define eligible method as mentioned below.Item is the individual item scaned during the checkout.
-Define calculate_total_discounted_price to compute the new value after discounts.
-return false if your rule has only basket specific discounts.
-
-      def eligible?(_item)
         false
       end
 
@@ -66,6 +49,24 @@ return false if your rule has only basket specific discounts.
           discount_price = total
         end
         discount_price
+      end
+
+
+If the discount is on an item define eligible method as mentioned below.Item is the individual item scaned during the checkout.
+Define calculate_discounted_price to compute the new value after discounts.
+return false if your rule has only basket specific discounts.
+
+      def eligible?(_item)
+        false
+      end
+
+      def calculate_discounted_price(basket_item, discount_type)
+        if discount_type == "percentage"
+          discount = compute_discount(basket_item)
+          basket_item.product.price = discount
+        elsif discount_type == "flat_rate"
+          basket_item.product.price = value
+        end
       end
 
 Methods in concerns/rule_validations can be used readily to validate the input parameters while capturing the rule.
